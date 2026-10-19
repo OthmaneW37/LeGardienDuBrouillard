@@ -1,5 +1,10 @@
 # 11 – Le Gardien du Brouillard
 
+Projet du cours *Steering Behaviors* du Master IA2 (Casablanca, 2026-2027). Il est né comme exemple 11 du
+[dépôt du cours](https://github.com/micbuffa/SteeringBehavioursM2IA2_Casa_2026_2027) et vit maintenant dans son
+propre dépôt, [OthmaneW37/LeGardienDuBrouillard](https://github.com/OthmaneW37/LeGardienDuBrouillard), avec tout
+son historique.
+
 Un combat de boss de type *Souls*, vu de dessus, dans une arène fermée. Vous jouez un chevalier ; face à vous,
 le **Gardien du Brouillard**. Le boss n'est pas programmé à la main : ses décisions viennent d'un **réseau de
 neurones** entraîné par **algorithme génétique**, c'est-à-dire par sélection naturelle. Le réseau choisit, et
@@ -22,9 +27,9 @@ d'une étape à l'autre.
 
 ## Lancer
 
-- **Jouer en ligne** : https://othmanew37.github.io/SteeringBehavioursM2IA2_Casa_2026_2027/
+- **Jouer en ligne** : https://othmanew37.github.io/LeGardienDuBrouillard/
 - **Vidéo de démonstration** (5 min 31, WebM, 113 Mo) :
-  https://github.com/OthmaneW37/SteeringBehavioursM2IA2_Casa_2026_2027/releases/download/gardien-video-v1/gardien-du-brouillard-presentation.webm
+  https://github.com/OthmaneW37/LeGardienDuBrouillard/releases/download/gardien-video-v1/gardien-du-brouillard-presentation.webm
 
 En local : ouvrir `index.html` via un serveur local, par exemple `python -m http.server` dans ce dossier, puis aller sur
 `http://localhost:8000`. p5.js et les polices sont chargés en local depuis `libraries/` : aucune ressource
@@ -124,7 +129,7 @@ entités `Pillar` (sous-classe de `Vehicle`, immobile) :
 
 ## Le cerveau du boss
 
-**Réseau** : 16 entrées → 16 neurones cachés sigmoïdes → 6 sorties sigmoïdes (`NeuralNetwork.js` de l'exemple 9b),
+**Réseau** : 16 entrées → 16 neurones cachés sigmoïdes → 6 sorties sigmoïdes (`NeuralNetwork.js` de l'exemple 9b du cours),
 soit 16 × 16 + 16 + 16 × 6 + 6 = **374 paramètres** que l'algorithme génétique fait évoluer.
 
 | Entrées (toutes dans [0, 1]) | Sorties |
@@ -446,7 +451,7 @@ du canvas et son du jeu, `recorder.js`, environ 30 Mo par minute). Le format Web
 Firefox et VLC ; pour un MP4, il faut le convertir. Il n'y a pas de voix off : les explications sont les légendes.
 MediaRecorder écrit la vidéo sans sa durée : `WebmDuration` l'inscrit dans l'en-tête à la fin, pour que la barre de
 progression et la recherche fonctionnent. Une vidéo déjà enregistrée (5 min 31, 1280 × 720) est
-[téléchargeable sur GitHub](https://github.com/OthmaneW37/SteeringBehavioursM2IA2_Casa_2026_2027/releases/download/gardien-video-v1/gardien-du-brouillard-presentation.webm)
+[téléchargeable sur GitHub](https://github.com/OthmaneW37/LeGardienDuBrouillard/releases/download/gardien-video-v1/gardien-du-brouillard-presentation.webm)
 (fichier joint à la release `gardien-video-v1`) ; en local, elle est dans `video/`, gardée hors du dépôt Git
 (`video/.gitignore`).
 
@@ -623,11 +628,11 @@ Un scénario ne liste que ce qui change. Modifier un curseur à la main fait pas
 
 | Fichier | Rôle |
 |---|---|
-| `vehicle.js` | **Fourni, protégé** : copie intacte de `4-Wander/vehicle.js`. Un test vérifie son empreinte. |
+| `vehicle.js` | **Fourni, protégé** : copie intacte de `4-Wander/vehicle.js` du dépôt du cours. Un test vérifie son empreinte (sha256, fins de ligne normalisées). |
 | `steering.js` | `flee` de Reynolds, `evade`, `stayInside`, point de garde, **`orbitPoint`** (cible en avance sur le cercle, pour `seek` et `arrive`), **`avoidZones`** (évitement des nappes et des piliers), `distanceToSegment`. |
 | `combat.js` | Règles : vies, endurance, roulade, fioles, techniques du boss (préparation, frappe, récupération), cône de frappe. |
 | `arena.js` | Arène : bords, coins (anti-camping), rayons vers les murs et les piliers, mur physique, emplacements des piliers, sol, brouillard et coins violets (décor). |
-| `NeuralNetwork.js` | Copie du réseau de l'exemple 9b. |
+| `NeuralNetwork.js` | Copie du réseau de l'exemple 9b du cours. |
 | `campfire.js`, `mistPatch.js`, `pillar.js`, `bloodstain.js`, `player.js`, `boss.js` | Les entités : feu de camp, nappe de brume, pilier, tache de sang, chevalier, boss. Toutes `extends Vehicle`. |
 | `bossBrain.js`, `handBoss.js`, `scriptedPlayer.js`, `humanController.js` | Cerveau du boss appris (16-16-6) et conversion des anciens cerveaux, boss à états, joueur robot, clavier. |
 | `fight.js` | Un combat à pas fixe de 1/60 s, sans dessin : nappes, brûlure, piliers (collision, coup paré, ruée écrasée), anti-camping, cause de la mort. |

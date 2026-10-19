@@ -1,8 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { load, Vector } from './helpers.mjs';
+
+// Empreinte sha256 de 4-Wander/vehicle.js (dépôt du cours), fins de ligne normalisées en \n : le test passe
+// aussi bien dans le dépôt du cours que dans le dépôt du projet seul, sous Windows comme ailleurs.
+const VEHICLE_SHA256 = '0c623b1b28fff57514ad7c332c73ae37a093f07e7e54ac0c99759f410c410fef';
 
 function world() {
   const env = load(7);
@@ -15,8 +19,11 @@ const idle = { mode: 'hold', speed: 0, attack: false, dodge: false };
 const close = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
 
 test('vehicle.js est la copie intacte de celui de 4-Wander (fichier protégé)', () => {
-  const hash = f => createHash('sha256').update(readFileSync(new URL(f, import.meta.url))).digest('hex');
-  assert.equal(hash('../vehicle.js'), hash('../../4-Wander/vehicle.js'));
+  const hash = f => createHash('sha256').update(readFileSync(new URL(f, import.meta.url), 'utf8').replace(/\r\n/g, '\n')).digest('hex');
+  assert.equal(hash('../vehicle.js'), VEHICLE_SHA256);
+  // Dans le dépôt du cours, on compare aussi directement avec l'original
+  const original = new URL('../../4-Wander/vehicle.js', import.meta.url);
+  if (existsSync(original)) assert.equal(hash('../vehicle.js'), hash('../../4-Wander/vehicle.js'));
 });
 
 test('flee de Reynolds : vitesse désirée inversée puis force recalculée, limitée à maxForce', () => {
